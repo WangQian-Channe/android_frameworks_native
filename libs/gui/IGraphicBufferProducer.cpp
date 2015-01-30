@@ -107,8 +107,13 @@ public:
         return result;
     }
 
+#ifdef HISILICON_HI3630
+    virtual status_t queueBuffer(int buf, 
+            const QueueBufferInput& input, QueueBufferOutput* output, Rect* dirtyRect) {
+#else
     virtual status_t queueBuffer(int buf,
             const QueueBufferInput& input, QueueBufferOutput* output) {
+#endif
         Parcel data, reply;
         data.writeInterfaceToken(IGraphicBufferProducer::getInterfaceDescriptor());
         data.writeInt32(buf);
@@ -249,7 +254,12 @@ status_t BnGraphicBufferProducer::onTransact(
             QueueBufferOutput* const output =
                     reinterpret_cast<QueueBufferOutput *>(
                             reply->writeInplace(sizeof(QueueBufferOutput)));
+#ifdef HISILICON_HI3630
+            Rect dirtyRect;
+            status_t result = queueBuffer(buf, input, output, &dirtyRect);
+#else
             status_t result = queueBuffer(buf, input, output);
+#endif
             reply->writeInt32(result);
             return NO_ERROR;
         } break;

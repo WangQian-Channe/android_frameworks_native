@@ -226,6 +226,9 @@ void VirtualDisplaySurface::onFrameCommitted() {
     if (mOutputProducerSlot >= 0) {
         int sslot = mapProducer2SourceSlot(SOURCE_SINK, mOutputProducerSlot);
         QueueBufferOutput qbo;
+#ifdef HISILICON_HI3630
+        Rect dirtyRect;
+#endif
         sp<Fence> outFence = mHwc.getLastRetireFence(mDisplayId);
         VDS_LOGV("onFrameCommitted: queue sink sslot=%d", sslot);
         status_t result = mSource[SOURCE_SINK]->queueBuffer(sslot,
@@ -235,7 +238,11 @@ void VirtualDisplaySurface::onFrameCommitted() {
                     NATIVE_WINDOW_SCALING_MODE_FREEZE, 0 /* transform */,
                     true /* async*/,
                     outFence),
+#ifdef HISILICON_HI3630
+                &qbo, &dirtyRect);
+#else
                 &qbo);
+#endif
         if (result == NO_ERROR) {
             updateQueueBufferOutput(qbo);
         }
@@ -362,9 +369,13 @@ status_t VirtualDisplaySurface::dequeueBuffer(int* pslot, sp<Fence>* fence, bool
     }
     return result;
 }
-
+#ifdef HISILICON_HI3630
+status_t VirtualDisplaySurface::queueBuffer(int pslot,
+        const QueueBufferInput& input, QueueBufferOutput* output, Rect* dirtyRect) {
+#else
 status_t VirtualDisplaySurface::queueBuffer(int pslot,
         const QueueBufferInput& input, QueueBufferOutput* output) {
+#endif
     VDS_LOGW_IF(mDbgState != DBG_STATE_GLES,
             "Unexpected queueBuffer(pslot=%d) in %s state", pslot,
             dbgStateStr());
@@ -377,7 +388,11 @@ status_t VirtualDisplaySurface::queueBuffer(int pslot,
         // Queue the buffer back into the scratch pool
         QueueBufferOutput scratchQBO;
         int sslot = mapProducer2SourceSlot(SOURCE_SCRATCH, pslot);
+#ifdef HISILICON_HI3630
+        result = mSource[SOURCE_SCRATCH]->queueBuffer(sslot, input, &scratchQBO, dirtyRect);
+#else
         result = mSource[SOURCE_SCRATCH]->queueBuffer(sslot, input, &scratchQBO);
+#endif
         if (result != NO_ERROR)
             return result;
 

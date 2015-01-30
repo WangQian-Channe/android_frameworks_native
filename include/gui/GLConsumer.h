@@ -94,6 +94,10 @@ public:
     // This calls doGLFenceWait to ensure proper synchronization.
     status_t updateTexImage();
 
+#ifdef HISILICON_HI3630
+    status_t updateTexImageLayer(sp<GraphicBuffer> graphicBuffer);
+#endif
+
     // releaseTexImage releases the texture acquired in updateTexImage().
     // This is intended to be used in single buffer mode.
     //

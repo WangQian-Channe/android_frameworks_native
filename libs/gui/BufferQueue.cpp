@@ -475,8 +475,13 @@ status_t BufferQueue::dequeueBuffer(int *outBuf, sp<Fence>* outFence, bool async
     return returnFlags;
 }
 
+#ifdef HISILICON_HI3630
+status_t BufferQueue::queueBuffer(int buf, 
+        const QueueBufferInput& input, QueueBufferOutput* output, Rect* dirtyRect) {
+#else
 status_t BufferQueue::queueBuffer(int buf,
         const QueueBufferInput& input, QueueBufferOutput* output) {
+#endif
     ATRACE_CALL();
     ATRACE_BUFFER_INDEX(buf);
 

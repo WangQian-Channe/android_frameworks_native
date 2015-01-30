@@ -107,6 +107,10 @@ protected:
     virtual void onFrameAvailable();
     virtual void onBuffersReleased();
 
+#ifdef HISILICON_HI3630
+    virtual void onSetRefreshDirty(const Rect& dirtyRect);
+#endif
+
     // freeBufferLocked frees up the given buffer slot.  If the slot has been
     // initialized this will release the reference to the GraphicBuffer in that
     // slot.  Otherwise it has no effect.

@@ -89,6 +89,12 @@ void ConsumerBase::onLastStrongRef(const void* id) {
     abandon();
 }
 
+#ifdef HISILICON_HI3630
+void ConsumerBase::onSetRefreshDirty(const Rect& dirtyRect) {
+    CB_LOGV("onSetRefreshDirty");
+}
+#endif
+
 void ConsumerBase::freeBufferLocked(int slotIndex) {
     CB_LOGV("freeBufferLocked: slotIndex=%d", slotIndex);
     mSlots[slotIndex].mGraphicBuffer = 0;
