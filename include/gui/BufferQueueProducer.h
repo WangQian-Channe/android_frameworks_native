@@ -121,8 +121,14 @@ public:
     // Some values are returned in the output struct: the current settings
     // for default width and height, the current transform hint, and the
     // number of queued buffers.
+
+#ifdef HISILICON_HI3630
+    virtual status_t queueBuffer(int slot, 
+            const QueueBufferInput& input, QueueBufferOutput* output, Rect* dirtyRect);
+#else
     virtual status_t queueBuffer(int slot,
             const QueueBufferInput& input, QueueBufferOutput* output);
+#endif
 
     // cancelBuffer returns a dequeued buffer to the BufferQueue, but doesn't
     // queue it for use by the consumer.

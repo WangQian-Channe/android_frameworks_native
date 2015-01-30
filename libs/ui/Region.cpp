@@ -249,7 +249,11 @@ void Region::set(const Rect& r)
     mStorage.clear();
     mStorage.add(r);
 }
-
+void Region::set(int w, int h)
+{
+    mStorage.clear();
+    mStorage.add(Rect(w,h));
+}
 void Region::set(uint32_t w, uint32_t h)
 {
     mStorage.clear();

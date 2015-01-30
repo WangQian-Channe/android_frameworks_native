@@ -46,6 +46,9 @@ public:
         //
         // This is called without any lock held and can be called concurrently
         // by multiple threads.
+#ifdef HISILICON_HI3630
+        virtual void onFrameAvailable() = 0;
+#endif
         virtual void onFrameAvailable(const BufferItem& item) = 0;
     };
 
@@ -106,9 +109,19 @@ protected:
     // the ConsumerBase implementation must be called from the derived class.
     // The ConsumerBase version of onSidebandStreamChanged does nothing and can
     // be overriden by derived classes if they want the notification.
+
+#ifdef HISILICON_HI3630
+    virtual void onFrameAvailable();
+#endif
+
     virtual void onFrameAvailable(const BufferItem& item);
+
     virtual void onBuffersReleased();
     virtual void onSidebandStreamChanged();
+
+#ifdef HISILICON_HI3630
+    virtual void onSetRefreshDirty(const Rect& dirtyRect);
+#endif
 
     // freeBufferLocked frees up the given buffer slot.  If the slot has been
     // initialized this will release the reference to the GraphicBuffer in that

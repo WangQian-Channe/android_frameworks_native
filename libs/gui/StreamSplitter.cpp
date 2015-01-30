@@ -164,7 +164,12 @@ void StreamSplitter::onFrameAvailable(const BufferItem& /* item */) {
         }
 
         IGraphicBufferProducer::QueueBufferOutput queueOutput;
+#ifdef HISILICON_HI3630
+        Rect dirtyRect;
+        status = (*output)->queueBuffer(slot, queueInput, &queueOutput, &dirtyRect);
+#else
         status = (*output)->queueBuffer(slot, queueInput, &queueOutput);
+#endif
         if (status == NO_INIT) {
             // If we just discovered that this output has been abandoned, note
             // that, increment the release count so that we still release this

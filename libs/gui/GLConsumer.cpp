@@ -234,6 +234,12 @@ status_t GLConsumer::updateTexImage() {
     return bindTextureImageLocked();
 }
 
+#ifdef HISILICON_HI3630
+status_t GLConsumer::updateTexImageLayer(sp<GraphicBuffer> graphicBuffer) {
+    ST_LOGV("updateTexImageLayer");
+    return NO_ERROR;
+}
+#endif
 
 status_t GLConsumer::releaseTexImage() {
     ATRACE_CALL();
@@ -988,6 +994,13 @@ status_t GLConsumer::doGLFenceWaitLocked() const {
 
     return NO_ERROR;
 }
+
+#ifdef HISILICON_HI3630
+Rect GLConsumer::getCurRefreshDirty() const {
+    Rect dirtyRect;
+    return dirtyRect;
+}
+#endif
 
 #ifdef QCOM_BSP
 Rect GLConsumer::getCurrentDirtyRect() const {

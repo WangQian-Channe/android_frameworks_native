@@ -508,9 +508,13 @@ status_t BufferQueueProducer::attachBuffer(int* outSlot,
 
     return returnFlags;
 }
-
+#ifdef HISILICON_HI3630
+status_t BufferQueueProducer::queueBuffer(int slot,
+        const QueueBufferInput &input, QueueBufferOutput *output, Rect* dirtyRect) {
+#else
 status_t BufferQueueProducer::queueBuffer(int slot,
         const QueueBufferInput &input, QueueBufferOutput *output) {
+#endif
     ATRACE_CALL();
     ATRACE_BUFFER_INDEX(slot);
 

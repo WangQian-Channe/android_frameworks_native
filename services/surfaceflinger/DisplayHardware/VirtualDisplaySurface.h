@@ -102,12 +102,18 @@ private:
     virtual status_t setBufferCount(int bufferCount);
     virtual status_t dequeueBuffer(int* pslot, sp<Fence>* fence, bool async,
             uint32_t w, uint32_t h, uint32_t format, uint32_t usage);
+
     virtual status_t detachBuffer(int slot);
     virtual status_t detachNextBuffer(sp<GraphicBuffer>* outBuffer,
             sp<Fence>* outFence);
     virtual status_t attachBuffer(int* slot, const sp<GraphicBuffer>& buffer);
+#ifdef HISILICON_HI3630
+    virtual status_t queueBuffer(int pslot,
+            const QueueBufferInput& input, QueueBufferOutput* output, Rect* dirtyRect);
+#else
     virtual status_t queueBuffer(int pslot,
             const QueueBufferInput& input, QueueBufferOutput* output);
+#endif
     virtual void cancelBuffer(int pslot, const sp<Fence>& fence);
     virtual int query(int what, int* value);
     virtual status_t connect(const sp<IProducerListener>& listener,

@@ -79,10 +79,17 @@ status_t MonitoredProducer::attachBuffer(int* outSlot,
     return mProducer->attachBuffer(outSlot, buffer);
 }
 
+#ifdef HISILICON_HI3630
+status_t MonitoredProducer::queueBuffer(int slot, const QueueBufferInput& input,
+        QueueBufferOutput* output, Rect* dirtyRect) {
+    return mProducer->queueBuffer(slot, input, output, dirtyRect);
+}
+#else
 status_t MonitoredProducer::queueBuffer(int slot, const QueueBufferInput& input,
         QueueBufferOutput* output) {
     return mProducer->queueBuffer(slot, input, output);
 }
+#endif
 
 void MonitoredProducer::cancelBuffer(int slot, const sp<Fence>& fence) {
     mProducer->cancelBuffer(slot, fence);

@@ -24,6 +24,11 @@ namespace android {
 // Append the libgui configuration details to configStr.
 void appendGuiConfigString(String8& configStr);
 
+#ifdef HISILICON_HI3630
+int DISPLAY_SIZE_DENSITY_VALUE;
+int DISPLAY_SIZE_DENSITY;
+#endif
+
 }; // namespace android
 
 #endif /*ANDROID_GUI_CONFIG_H*/

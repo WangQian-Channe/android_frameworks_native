@@ -43,8 +43,14 @@ public:
             sp<Fence>* outFence);
     virtual status_t attachBuffer(int* outSlot,
             const sp<GraphicBuffer>& buffer);
+#ifdef HISILICON_HI3630
+    virtual status_t queueBuffer(int slot, const QueueBufferInput& input,
+            QueueBufferOutput* output, Rect* dirtyRect);
+#else
     virtual status_t queueBuffer(int slot, const QueueBufferInput& input,
             QueueBufferOutput* output);
+#endif
+
     virtual void cancelBuffer(int slot, const sp<Fence>& fence);
     virtual int query(int what, int* value);
     virtual status_t connect(const sp<IProducerListener>& token, int api,

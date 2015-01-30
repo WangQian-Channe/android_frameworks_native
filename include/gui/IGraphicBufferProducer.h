@@ -377,8 +377,13 @@ public:
         uint32_t numPendingBuffers;
     };
 
+#ifdef HISILICON_HI3630
+    virtual status_t queueBuffer(int slot, 
+            const QueueBufferInput& input, QueueBufferOutput* output, Rect* dirtyRect) = 0;
+#else
     virtual status_t queueBuffer(int slot,
             const QueueBufferInput& input, QueueBufferOutput* output) = 0;
+#endif
 
     // cancelBuffer indicates that the client does not wish to fill in the
     // buffer associated with slot and transfers ownership of the slot back to

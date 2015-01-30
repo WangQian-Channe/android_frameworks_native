@@ -91,6 +91,27 @@ void ConsumerBase::onLastStrongRef(const void* id __attribute__((unused))) {
     abandon();
 }
 
+#ifdef HISILICON_HI3630
+void ConsumerBase::onSetRefreshDirty(const Rect& dirtyRect) {
+    CB_LOGV("onSetRefreshDirty");
+}
+
+void ConsumerBase::onFrameAvailable() {
+    CB_LOGV("onFrameAvailable");
+
+    sp<FrameAvailableListener> listener;
+    { // scope for the lock
+        Mutex::Autolock lock(mMutex);
+        listener = mFrameAvailableListener.promote();
+    }
+
+    if (listener != NULL) {
+        CB_LOGV("actually calling onFrameAvailable");
+        listener->onFrameAvailable();
+    }
+}
+#endif
+
 void ConsumerBase::freeBufferLocked(int slotIndex) {
     CB_LOGV("freeBufferLocked: slotIndex=%d", slotIndex);
     mSlots[slotIndex].mGraphicBuffer = 0;

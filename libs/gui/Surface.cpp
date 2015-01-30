@@ -361,7 +361,15 @@ int Surface::queueBuffer(android_native_buffer_t* buffer, int fenceFd) {
 #endif
             mScalingMode, mTransform ^ mStickyTransform, mSwapIntervalZero,
             fence, mStickyTransform);
+#ifdef HISILICON_HI3630
+    int drWidth = mUserWidth ? mUserWidth : mDefaultWidth;
+    int drHeight = mUserHeight ? mUserHeight : mDefaultHeight;
+    Rect dirtyRect = Rect(drWidth, drHeight);
+
+    status_t err = mGraphicBufferProducer->queueBuffer(i, input, &output, &dirtyRect);
+#else
     status_t err = mGraphicBufferProducer->queueBuffer(i, input, &output);
+#endif
     if (err != OK)  {
         ALOGE("queueBuffer: error queuing buffer to SurfaceTexture, %d", err);
     }
