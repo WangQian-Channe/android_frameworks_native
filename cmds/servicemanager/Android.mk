@@ -15,4 +15,7 @@ endif
 ifeq ($(BOARD_USE_SECTVOUT),true)
     LOCAL_CFLAGS += -DSECTVOUT
 endif
+ifeq ($(BOARD_USE_ICOS_MIRROR_SERVICE),true)
+    LOCAL_CFLAGS += -DICOS_MIRROR_SERVICE
+endif
 include $(BUILD_EXECUTABLE)

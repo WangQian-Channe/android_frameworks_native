@@ -39,6 +39,9 @@ static struct {
 #ifdef SECTVOUT
     { AID_MEDIA, "SecTVOutService" },
 #endif
+#ifdef ICOS_MIRROR_SERVICE
+    { AID_MEDIA, "icos_mirror_service_audio" },
+#endif
     { AID_DRM,   "drm.drmManager" },
     { AID_NFC,   "nfc" },
     { AID_BLUETOOTH, "bluetooth" },
