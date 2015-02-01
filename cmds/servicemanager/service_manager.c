@@ -42,6 +42,10 @@ static struct {
 #ifdef ICOS_MIRROR_SERVICE
     { AID_MEDIA, "icos_mirror_service_audio" },
 #endif
+#ifdef HUAWEI_SERVICES
+    { AID_MEDIA, "post.camera" },
+    { AID_MEDIA, "huawei.audioalgoservice" },
+#endif
     { AID_DRM,   "drm.drmManager" },
     { AID_NFC,   "nfc" },
     { AID_BLUETOOTH, "bluetooth" },
